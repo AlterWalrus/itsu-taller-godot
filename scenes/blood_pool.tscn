@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d20sfwwdutd7x"]
+
+[ext_resource type="Texture2D" uid="uid://c3vvsgmkqk5ny" path="res://sprites/fire.png" id="1_w6dvo"]
+
+[node name="BloodPool" type="Sprite2D"]
+modulate = Color(0.32022533, 6.916389e-05, 0.32022285, 1)
+texture = ExtResource("1_w6dvo")

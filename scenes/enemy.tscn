@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://dxibcdq8tnyos"]
+
+[ext_resource type="Script" uid="uid://dolxt786th8di" path="res://scripts/enemy.gd" id="1_md0e3"]
+[ext_resource type="Texture2D" uid="uid://c1tt3wn2hdm7j" path="res://sprites/zombie.png" id="2_md0e3"]
+[ext_resource type="Texture2D" uid="uid://c3vvsgmkqk5ny" path="res://sprites/fire.png" id="3_4ra3w"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5uy6h"]
+radius = 15.0
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_md0e3"]
+polygon = PackedVector2Array(-21, -12, -21, 9, -4, 17, -4, -19)
+
+[sub_resource type="Curve" id="Curve_5uy6h"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.98648643, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Enemy" type="StaticBody2D"]
+script = ExtResource("1_md0e3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-12, 0)
+shape = SubResource("CircleShape2D_5uy6h")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_md0e3")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_md0e3")
+
+[node name="Blood" type="CPUParticles2D" parent="."]
+process_mode = 1
+emitting = false
+texture = ExtResource("3_4ra3w")
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.8
+gravity = Vector2(0, 98)
+initial_velocity_min = 80.0
+initial_velocity_max = 160.0
+angular_velocity_min = 2.05
+angular_velocity_max = 489.68
+linear_accel_min = 2.95
+linear_accel_max = 3.25
+scale_amount_min = 0.1
+scale_amount_max = 0.1
+scale_amount_curve = SubResource("Curve_5uy6h")
+color = Color(0.5568628, 0, 0, 1)

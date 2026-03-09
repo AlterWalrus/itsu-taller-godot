@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://ctvmjm3aqmps6"]
+
+[ext_resource type="Script" uid="uid://pjypkmhmgkr4" path="res://scripts/player.gd" id="1_qhqgy"]
+[ext_resource type="PackedScene" uid="uid://cm8i07lum14jl" path="res://scenes/bullet.tscn" id="2_dqkch"]
+[ext_resource type="Texture2D" uid="uid://3ay2e6372pq5" path="res://sprites/player.png" id="3_dqkch"]
+[ext_resource type="Texture2D" uid="uid://cpfghdglepxad" path="res://sprites/light.png" id="4_dqkch"]
+[ext_resource type="Texture2D" uid="uid://bj1270jm30y0p" path="res://sprites/glow.png" id="5_qlg0r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0xm2m"]
+size = Vector2(80, 80)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tbgi4"]
+radius = 80.0
+
+[node name="Player" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_qhqgy")
+speed = 320.0
+BULLET_SCENE = ExtResource("2_dqkch")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0xm2m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_dqkch")
+
+[node name="DamageDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageDetector"]
+shape = SubResource("CircleShape2D_tbgi4")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(4, 4)
+energy = 1.5
+shadow_enabled = true
+texture = ExtResource("4_dqkch")
+offset = Vector2(64, 0)
+
+[node name="ShootSpark" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 1, 0.44313726, 0.6862745)
+position = Vector2(66, -8)
+texture = ExtResource("5_qlg0r")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(1600, 0)
+
+[node name="Line2D" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(64, -8, 320, -8)
+width = 4.0
+default_color = Color(0.92156863, 0.9019608, 0.43529412, 1)

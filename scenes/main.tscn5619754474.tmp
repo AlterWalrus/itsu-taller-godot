@@ -1,0 +1,108 @@
+[gd_scene load_steps=11 format=3 uid="uid://sspdgcefflof"]
+
+[ext_resource type="Script" uid="uid://pjypkmhmgkr4" path="res://scripts/player.gd" id="1_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://du3w1q1wbvy8w" path="res://icon.svg" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://pm2r5fl4aujp" path="res://scripts/main.gd" id="1_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://cm8i07lum14jl" path="res://scenes/bullet.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://dxibcdq8tnyos" path="res://scenes/enemy.tscn" id="4_jyhfs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0xm2m"]
+size = Vector2(80, 80)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tbgi4"]
+radius = 80.0
+
+[sub_resource type="Gradient" id="Gradient_tbgi4"]
+colors = PackedColorArray(0, 0, 0, 1, 0.10872077, 0.10872077, 0.10872076, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_tefeu"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_o6xl0"]
+width = 640
+height = 480
+noise = SubResource("FastNoiseLite_tefeu")
+color_ramp = SubResource("Gradient_tbgi4")
+
+[node name="Main" type="Node"]
+script = ExtResource("1_jyhfs")
+ENEMY_SCENE = ExtResource("4_jyhfs")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(320, 240)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_0xm2m")
+speed = 320.0
+BULLET_SCENE = ExtResource("3_h2yge")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_0xm2m")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("1_ig7tw")
+
+[node name="DamageDetector" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/DamageDetector"]
+shape = SubResource("CircleShape2D_tbgi4")
+
+[node name="EnemySpawner" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(240, 0)
+offset_left = 27.0
+offset_top = 19.0
+offset_right = 267.0
+offset_bottom = 46.0
+value = 100.0
+show_percentage = false
+
+[node name="Score" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.9375
+anchor_right = 1.0
+anchor_bottom = 0.047916666
+offset_left = -24.0
+offset_top = 26.0
+offset_right = -24.0
+offset_bottom = 26.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="TexturedRect" type="TextureRect" parent="GameOver"]
+offset_right = 640.0
+offset_bottom = 480.0
+texture = SubResource("NoiseTexture2D_o6xl0")
+
+[node name="Label" type="Label" parent="GameOver/TexturedRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9742792, 0.16125086, 0.12890705, 1)
+theme_override_font_sizes/font_size = 64
+text = "GAME OVER"

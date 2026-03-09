@@ -1,0 +1,187 @@
+[gd_scene load_steps=15 format=3 uid="uid://sspdgcefflof"]
+
+[ext_resource type="Script" uid="uid://pm2r5fl4aujp" path="res://scripts/main.gd" id="1_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://btugaa50s3bua" path="res://sprites/grass.png" id="3_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://ctvmjm3aqmps6" path="res://scenes/player.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://d20sfwwdutd7x" path="res://scenes/blood_pool.tscn" id="3_tipki"]
+[ext_resource type="PackedScene" uid="uid://dxibcdq8tnyos" path="res://scenes/enemy.tscn" id="4_jyhfs"]
+[ext_resource type="Theme" uid="uid://fnik7fvu8g0m" path="res://main.tres" id="5_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://bev77ymana8na" path="res://sprites/light_point.png" id="6_tefeu"]
+[ext_resource type="Texture2D" uid="uid://c3vvsgmkqk5ny" path="res://sprites/fire.png" id="7_o6xl0"]
+
+[sub_resource type="Gradient" id="Gradient_tbgi4"]
+colors = PackedColorArray(0, 0, 0, 1, 0.10872077, 0.10872077, 0.10872076, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_tefeu"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_o6xl0"]
+width = 640
+height = 480
+noise = SubResource("FastNoiseLite_tefeu")
+color_ramp = SubResource("Gradient_tbgi4")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tbgi4"]
+radius = 34.04608
+height = 203.80298
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tefeu"]
+radius = 30.265491
+
+[sub_resource type="Curve" id="Curve_tipki"]
+_data = [Vector2(0, 0.7354086), 0.0, 0.0, 0, 0, Vector2(0.527027, 0.7042802), 0.0, 0.0, 0, 0, Vector2(0.7702702, 0.05058372), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="Main" type="Node"]
+process_mode = 3
+script = ExtResource("1_jyhfs")
+ENEMY_SCENE = ExtResource("4_jyhfs")
+BLOOD_SCENE = ExtResource("3_tipki")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_jyhfs")
+
+[node name="Blood" type="CanvasGroup" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("3_sugp2")]
+process_mode = 1
+position = Vector2(320, 240)
+
+[node name="EnemySpawner" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+custom_minimum_size = Vector2(240, 0)
+offset_left = 37.0
+offset_top = 66.0
+offset_right = 277.0
+offset_bottom = 74.0
+theme = ExtResource("5_tbgi4")
+value = 100.0
+show_percentage = false
+
+[node name="Score" type="Label" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.93100005
+anchor_right = 1.0
+anchor_bottom = 0.054
+offset_left = -74.84003
+offset_top = 59.0
+offset_right = -79.0
+offset_bottom = 78.08
+grow_horizontal = 0
+theme = ExtResource("5_tbgi4")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.69411767)
+theme_override_font_sizes/font_size = 42
+text = "0"
+horizontal_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="BloodDamage" type="Node2D" parent="UI"]
+visible = false
+
+[node name="BloodPool" parent="UI/BloodDamage" instance=ExtResource("3_tipki")]
+position = Vector2(77, 45.000004)
+scale = Vector2(4.015625, 3.5)
+
+[node name="BloodPool5" parent="UI/BloodDamage" instance=ExtResource("3_tipki")]
+position = Vector2(601, 162)
+scale = Vector2(4.015625, 3.5)
+flip_h = true
+
+[node name="BloodPool7" parent="UI/BloodDamage" instance=ExtResource("3_tipki")]
+position = Vector2(475, 266)
+scale = Vector2(4.015625, 3.5)
+
+[node name="BloodPool8" parent="UI/BloodDamage" instance=ExtResource("3_tipki")]
+position = Vector2(306, 222)
+scale = Vector2(4.015625, 3.5)
+
+[node name="BloodPool6" parent="UI/BloodDamage" instance=ExtResource("3_tipki")]
+position = Vector2(486, 57.000023)
+scale = Vector2(4.015625, 3.5)
+
+[node name="BloodPool3" parent="UI/BloodDamage" instance=ExtResource("3_tipki")]
+position = Vector2(115, 325.99997)
+scale = Vector2(4.015625, 3.5)
+
+[node name="BloodPool4" parent="UI/BloodDamage" instance=ExtResource("3_tipki")]
+position = Vector2(167, 426.00003)
+scale = Vector2(4.015625, 3.5)
+flip_h = true
+flip_v = true
+
+[node name="BloodPool2" parent="UI/BloodDamage" instance=ExtResource("3_tipki")]
+position = Vector2(552, 463.99997)
+scale = Vector2(4.015625, 3.5)
+flip_h = true
+flip_v = true
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="TexturedRect" type="TextureRect" parent="GameOver"]
+offset_right = 640.0
+offset_bottom = 480.0
+texture = SubResource("NoiseTexture2D_o6xl0")
+
+[node name="Label" type="Label" parent="GameOver/TexturedRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_tbgi4")
+theme_override_colors/font_color = Color(0.9742792, 0.16125086, 0.12890705, 1)
+theme_override_font_sizes/font_size = 64
+text = "GAME OVER"
+
+[node name="Obstacles" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles"]
+position = Vector2(506.99997, 85.00001)
+rotation = -2.300344
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("CapsuleShape2D_tbgi4")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Obstacles"]
+position = Vector2(88, 412)
+shape = SubResource("CircleShape2D_tefeu")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(88, 413)
+color = Color(0.72156864, 0.49803922, 0, 1)
+energy = 1.5
+shadow_enabled = true
+texture = ExtResource("6_tefeu")
+texture_scale = 1.5
+
+[node name="GPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(91, 407)
+texture = ExtResource("7_o6xl0")
+fixed_fps = 30
+draw_order = 1
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
+angular_velocity_min = -5.000016
+angular_velocity_max = 10.0
+angle_max = 360.0
+scale_amount_curve = SubResource("Curve_tipki")
